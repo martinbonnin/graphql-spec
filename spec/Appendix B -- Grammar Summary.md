@@ -127,7 +127,7 @@ ExecutableDefinition :
   - FragmentDefinition
 
 OperationDefinition :
-  - OperationType Name? VariableDefinitions? Directives? SelectionSet
+  - Description? OperationType Name? VariableDefinitions? Directives? SelectionSet
   - SelectionSet
 
 OperationType : one of `query` `mutation` `subscription`
@@ -151,7 +151,7 @@ FragmentSpread : ... FragmentName Directives?
 
 InlineFragment : ... TypeCondition? Directives? SelectionSet
 
-FragmentDefinition : fragment FragmentName TypeCondition Directives? SelectionSet
+FragmentDefinition : Description? fragment FragmentName TypeCondition Directives? SelectionSet
 
 FragmentName : Name but not `on`
 
