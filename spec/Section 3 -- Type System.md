@@ -1772,29 +1772,33 @@ single value, a client can just pass that value directly rather than
 constructing the list.
 
 The result of coercion of a value {value} to a list type {listType} is
-{CoerceListValue(value, listType)}.
+{CoerceListValue(value, listType, variableValues)}.
 
-CoerceListValue(value, listType):
+CoerceListValue(value, listType, variableValues):
 
 - If {value} is {null}, return {null}.
 - Let {itemType} be the inner type of {listType}.
 - Let {coercedList} be an empty list.
 - If {value} is a list:
   - For each {itemValue} in {value}:
-    - Let {coercedItemValue} be {CoerceListItemValue(itemValue, itemType)}.
+    - Let {coercedItemValue} be {CoerceListItemValue(itemValue, itemType,
+      variableValues)}.
     - Append {coercedItemValue} to {coercedList}.
 - Otherwise:
-  - Let {coercedItemValue} be {CoerceListItemValue(value, itemType)}.
+  - Let {coercedItemValue} be {CoerceListItemValue(value, itemType,
+    variableValues)}.
   - Append {coercedItemValue} to {coercedList}.
 - Return {coercedList}.
 
-CoerceListItemValue(itemValue, itemType):
+CoerceListItemValue(itemValue, itemType, variablesValues):
 
 - If {itemValue} is a Variable:
-  - If the variable provides a runtime value:
-    - Let {coercedItemValue} be the runtime value of the variable.
-  - Otherwise, if the variable definition provides a default value:
-    - Let {coercedItemValue} be this default value.
+  - Let {variableName} be the name of {itemValue}.
+  - Let {hasValue} be true if {variableValues} provides a value for the name
+    {variableName}.
+  - If {hasValue} is true
+    - Let {coercedItemValue} be the value provided in {variableValues} for the
+      name {variableName}.
   - Otherwise:
     - Let {coercedItemValue} be {null}.
   - If {coercedItemValue} is {null} and {itemType} is a non-null type, a _field
@@ -1802,6 +1806,9 @@ CoerceListItemValue(itemValue, itemType):
   - Return {coercedItemValue}.
 - Otherwise, return the result of coercing {itemValue} according to the input
   coercion rules for {itemType}.
+
+Note: {variableValues} is an empty Map when coercing variable values or the
+result of {CoerceVariableValues} when coercing argument values.
 
 Note: When a default value exists for a variable definition, the type of the
 variable is allowed to be nullable even if it is used in a non-nullable
