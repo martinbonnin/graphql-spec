@@ -59,13 +59,6 @@ forward. See editor Lee Byron talk about
   efficiency, or that make demands of GraphQL services which cannot efficiently
   be fulfilled.
 
-- **Favor no change**
-
-  As GraphQL is implemented in over a dozen languages under the collaboration of
-  hundreds of individuals, incorporating any change has a high cost.
-  Accordingly, proposed changes must meet a very high bar of added value. The
-  burden of proof is on the contributor to illustrate this value.
-
 - **Enable new capabilities motivated by real use cases**
 
   Every change should intend on unlocking a real and reasonable use case. Real
